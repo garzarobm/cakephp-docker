@@ -5,7 +5,7 @@ This setup spools up the following containers
 
 * **mysql** (8.0)
 * **nginx**
-* **php-fpm** (php 7.4)
+* **php-fpm** (php 8.1)
 * **mailhog** (smtp server for testing)
 
 The guide will walk you thru the following things
@@ -29,7 +29,7 @@ For those looking to get started in `60 sec` using just the defaults (which are 
  * and the files from this repo into the `docker` folder
 
 	```
-	    somefolder
+	    myapp
 	        docker
 	            .. put the zip files in here ..
 	        cakephp
@@ -65,16 +65,20 @@ For those looking to get started in `60 sec` using just the defaults (which are 
 	Starting myapp-mailhog
 	Starting myapp-php-fpm
 	Starting myapp-nginx
-	Attaching to myapp-mailhog, myapp-mysql, myapp-php-fpm, myapp-nginx
-	myapp-mailhog    | 2017/06/15 16:34:26 Using in-memory storage
-	...
-	myapp-mysql      | 2017-06-15T16:34:27.401334Z 0 [Note] mysqld (mysqld 5.7.17) starting as process 1 ...
-	...
-	myapp-mysql      | 2017-06-15T16:34:27.408857Z 0 [Warning] Setting lower_case_table_names=2 because file system for /var/lib/mysql/ is case insensitive
-	...
-	myapp-mysql      | 2017-06-15T16:34:28.332626Z 0 [Note] mysqld: ready for connections.
-	myapp-mysql      | Version: '5.7.17'  socket: '/var/run/mysqld/mysqld.sock'  port: 3306  MySQL Community Server (GPL)
-	myapp-mailhog    | [APIv1] KEEPALIVE /api/v1/events
+  Attaching to myapp-mailhog, myapp-mysql, myapp-nginx, myapp-php-fpm
+  myapp-mailhog  | 2024/06/12 15:59:39 Using in-memory storage
+  myapp-mailhog  | 2024/06/12 15:59:39 [SMTP] Binding to address: 0.0.0.0:1025
+  myapp-mailhog  | 2024/06/12 15:59:39 Serving under http://0.0.0.0:8025/
+  myapp-mailhog  | [HTTP] Binding to address: 0.0.0.0:8025
+  myapp-mailhog  | Creating API v1 with WebPath:
+  myapp-mailhog  | Creating API v2 with WebPath:
+  myapp-mysql    | 2024-06-12 15:59:39+00:00 [Note] [Entrypoint]: Entrypoint script for MySQL Server 8.0.27-1debian10 started.
+  myapp-php-fpm  | [12-Jun-2024 15:59:39] NOTICE: fpm is running, pid 1
+  myapp-php-fpm  | [12-Jun-2024 15:59:39] NOTICE: ready to handle connections
+  myapp-php-fpm  | [12-Jun-2024 15:59:39] NOTICE: systemd monitor interval set to 10000ms
+  myapp-nginx    | /docker-entrypoint.sh: /docker-entrypoint.d/ is not empty, will attempt to perform configuration
+  myapp-nginx    | /docker-entrypoint.sh: Looking for shell scripts in /docker-entrypoint.d/
+  myapp-nginx    | /docker-entrypoint.sh: Launching /docker-entrypoint.d/10-listen-on-ipv6-by-default.sh
 	... you'll probably see more crap spit out here ...
 	```
 5. If you're creating a new cakephp app, follow the steps in [creating a CakePHP app](#creating-a-CakePHP-app)
@@ -91,7 +95,7 @@ Clone this repo (or just download the zip) and put it in a `docker` folder insid
 Here is an example of what my typical setup looks like
 
 ```
-	myapp-folder
+	myapp
 		cakephp
 			src
 			config
@@ -214,10 +218,10 @@ This container runs `php` (and it's extensions) needed for your CakePHP app
 
 It automatically includes the following extensions
 
-* `php7.4-intl` (required for CakePHP 4.0+)
-* `php7.4-mbstring`
-* `php7.4-sqlite3` (required for DebugKit)
-* `php7.4-mysql`
+* `php8.1-intl` (required for CakePHP 4.0+)
+* `php8.1-mbstring` (included in the base image)
+* `php8.1-sqlite3` (required for DebugKit)
+* `php8.1-mysql`
 
 It also includes some php ini overrides (see `php-fpm\php-ini-overrides.ini`)
 
@@ -298,7 +302,7 @@ docker exec -it myapp-php-fpm /bin/bash
 
 and then, inside the container
 ```bash
-composer create-project --prefer-dist cakephp/app:~4.0 .
+composer create-project --prefer-dist cakephp/app:5.* .
 ```
 Next, fix the database connection strings by following the steps in [Connecting to your database](#Connecting-to-your-database) (above).
 
