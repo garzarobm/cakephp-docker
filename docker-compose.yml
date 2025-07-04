@@ -1,9 +1,4 @@
 services:
-  myapp-mailhog:
-    image: 'mailhog/mailhog:latest'
-    container_name: myapp-mailhog
-    ports:
-      - "8125:8025"
 
   myapp-mysql:
     image: 'mysql:8.0'
@@ -44,3 +39,8 @@ services:
     links:
       - myapp-mailhog
       - myapp-mysql
+  myapp-mailhog:
+    image: 'mailhog/mailhog:latest'
+    container_name: myapp-mailhog
+    ports:
+      - "8125:8025"
