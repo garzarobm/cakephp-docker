@@ -1,8 +1,8 @@
 services:
 
-  myapp-php:
+  myapp-cakephp:
     image: 'php:8.1-cli'
-    container_name: myapp-php
+    container_name: myapp-cakephp
     working_dir: /var/www/myapp
     volumes:
       - ../cakephp:/var/www/myapp
